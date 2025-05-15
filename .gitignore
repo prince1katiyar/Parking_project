@@ -1,0 +1,159 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+# Common virtual environment directory names
+venv/
+env/
+.venv/
+ENV/
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+# Usually these files are created by PyInstaller in a separate output directory.
+# If you run PyInstaller in-place, uncomment these lines
+# *.manifest
+# *.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+*.po
+
+# Django stuff (if you ever add Django, good to have)
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff (if you ever add Flask)
+instance/
+.webassets-cache
+
+# Scrapy stuff (if you ever add Scrapy)
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# Environments (files for environment variables)
+.env
+.env.*
+!.env.example  # Important: Keep .env.example if you have one
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# IDE - PyCharm
+.idea/
+*.iws
+*.iml
+
+# IDE - SublimeText
+*.sublime-project
+*.sublime-workspace
+
+# IDE - Eclipse
+.project
+.pydevproject
+.settings/
+
+# macOS
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# MyPy cache
+.mypy_cache/
+
+# Ruff cache
+.ruff_cache/
+
+# Pyright cache
+.pyright_cache/
+
+# Log files
+*.log
+logs/
+*.log.*
+
+# Project Specific
+# -----------------------------------------------------------------------------
+# Milvus Lite data
+data/milvus_data/
+
+# Other large data files or generated files in the data directory
+# If you have specific small data files you WANT to track in 'data/',
+# you can add them back with !data/your_specific_file.csv
+# For now, assuming most other things in 'data/' might be large or transient.
+# If 'data/' only contains 'milvus_data/', then the above line is sufficient.
+# If 'data/' contains other things you might want to ignore:
+# data/*
+# !data/.gitkeep # (if you want to keep the empty 'data' directory tracked)
+
+# Add any other specific files or directories for your project below
+# For example, if you have other output directories:
+# output/
+# results/
