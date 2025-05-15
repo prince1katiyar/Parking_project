@@ -106,7 +106,7 @@ class BookParkingSpotTool(BaseTool):
             confirmation_message = (
                 f"Booking successful! Your parking for vehicle {booking_confirmation['vehicle_number']} "
                 f"at Slot ID {booking_confirmation['slot']['id']} ({booking_confirmation['slot']['location']}) "
-                f"is confirmed from {start_dt.strftime('%Y-%m-%d %I:%M %p %Z')} to {end_dt.strftime('%Y-%m-%d %I:%M %p %Z')} " # Added %Z for timezone
+                f"is confirmed from {start_dt.strftime('%Y-%m-%d %I:%M %p %Z')} to {end_dt.strftime('%Y-%m-%d %I:%M %p %Z')} " 
                 f"({booking_confirmation['duration_hours']} hours). Total cost: ${booking_confirmation['total_cost']:.2f}. "
                 f"Your Booking ID is {booking_confirmation['id']}."
             )
