@@ -39,7 +39,7 @@ class MilvusService:
             fields = [
                 FieldSchema(name=ID_FIELD_NAME, dtype=DataType.INT64, is_primary=True, auto_id=True),
                 FieldSchema(name=SESSION_ID_FIELD_NAME, dtype=DataType.VARCHAR, max_length=255, description="User session ID"),
-                FieldSchema(name=TEXT_FIELD_NAME, dtype=DataType.VARCHAR, max_length=65535, description="Conversation text"), # Max length for VARCHAR
+                FieldSchema(name=TEXT_FIELD_NAME, dtype=DataType.VARCHAR, max_length=65535, description="Conversation text"), 
                 FieldSchema(name=ROLE_FIELD_NAME, dtype=DataType.VARCHAR, max_length=10, description="Role (user/ai)"),
                 FieldSchema(name=INDEX_FIELD_NAME, dtype=DataType.FLOAT_VECTOR, dim=DIMENSION)
             ]
