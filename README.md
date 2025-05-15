@@ -1,4 +1,4 @@
- # 🚗 AI-Powered Smart Parking System
+ <!-- # 🚗 AI-Powered Smart Parking System
 
 Welcome to the AI-Powered Smart Parking System! This project revolutionizes how you find and book parking spots. Our intelligent assistant helps you check slot availability in real-time and provides a seamless booking experience. Say goodbye to parking hassles!
 
@@ -174,7 +174,205 @@ Distributed under the MIT License. See `LICENSE` file for more information. (Cre
  -->
 
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Smart Parking System</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 2rem;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        code {
+            background-color: #ecf0f1;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+        pre {
+            background-color: #ecf0f1;
+            padding: 1em;
+            overflow-x: auto;
+            border-radius: 8px;
+        }
+        a {
+            color: #2980b9;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .section {
+            margin-bottom: 2em;
+        }
+        ul {
+            padding-left: 1.2em;
+        }
+    </style>
+</head>
+<body>
 
- -->
+    <h1>🚗 AI-Powered Smart Parking System</h1>
+    <p>Welcome to the AI-Powered Smart Parking System! This project revolutionizes how you find and book parking spots. Our intelligent assistant helps you check slot availability in real-time and provides a seamless booking experience. Say goodbye to parking hassles!</p>
+
+    <div class="section">
+        <h2>🌟 Core Features</h2>
+        <ul>
+            <li><strong>Smart Slot Checking:</strong> Instantly find available parking spots near your destination.</li>
+            <li><strong>Seamless Booking:</strong> Reserve your preferred parking slot directly through the assistant.</li>
+            <li><strong>Conversational AI:</strong> Interact naturally with our AI assistant for all your parking needs.</li>
+            <li><strong>Personalized Experience:</strong> The assistant can remember your preferences (like vehicle type) for future interactions within the same session.</li>
+            <li><strong>Real-time Updates (Conceptual):</strong> Designed with the potential to integrate with real-time parking data.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>🛠️ Tech Stack</h2>
+        <ul>
+            <li><strong>Backend API:</strong> FastAPI</li>
+            <li><strong>AI Orchestration:</strong> LangChain, LangChain-OpenAI</li>
+            <li><strong>Language Model:</strong> OpenAI (GPT series)</li>
+            <li><strong>Vector Database:</strong> Milvus</li>
+            <li><strong>Relational Database:</strong> SQLite (via SQLAlchemy)</li>
+            <li><strong>User Interface:</strong> Streamlit</li>
+            <li><strong>Server:</strong> Uvicorn</li>
+            <li><strong>Env Management:</strong> Python-dotenv</li>
+            <li><strong>Docker:</strong> Used to containerize Milvus</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>🚀 Getting Started</h2>
+        <h3>📦 Prerequisites</h3>
+        <ul>
+            <li><strong>Python 3.8+</strong></li>
+            <li><strong>Docker:</strong> <a href="https://docs.docker.com/get-docker/" target="_blank">Install Docker</a></li>
+            <li><strong>OpenAI API Key:</strong> <a href="https://platform.openai.com/" target="_blank">Get API Key</a></li>
+        </ul>
+
+        <h3>🔧 Setup Instructions</h3>
+        <ol>
+            <li><strong>Clone the Repository:</strong>
+                <pre><code># git clone &lt;your-repository-url&gt;
+# cd ai-powered-smart-parking-system</code></pre>
+            </li>
+
+            <li><strong>Run Milvus via Docker:</strong>
+                <pre><code>docker run -d --name milvus_standalone \
+  -p 19530:19530 \
+  -p 9091:9091 \
+  milvusdb/milvus:v2.3.10-standalone</code></pre>
+            </li>
+
+            <li><strong>Create Virtual Environment & Install Dependencies:</strong>
+                <pre><code>python -m venv venv
+source venv/bin/activate  # For macOS/Linux
+# venv\Scripts\activate    # For Windows
+pip install -r requirements.txt</code></pre>
+            </li>
+
+            <li><strong>Create a <code>.env</code> file:</strong>
+                <pre><code>OPENAI_API_KEY="your_openai_api_key_here"
+MILVUS_HOST="localhost"
+MILVUS_PORT="19530"
+MILVUS_COLLECTION_NAME="parking_conversations"</code></pre>
+            </li>
+
+            <li><strong>Initialize SQLite and Milvus Collections:</strong>
+                <pre><code>python -m app.initial_data
+python -m milvus_utils.milvus_connector</code></pre>
+            </li>
+        </ol>
+    </div>
+
+    <div class="section">
+        <h2>⚙️ Running the System</h2>
+        <ol>
+            <li><strong>Start FastAPI Backend:</strong>
+                <pre><code>uvicorn app.main:app --reload --host 0.0.0.0 --port 8000</code></pre>
+            </li>
+            <li><strong>Start Streamlit UI:</strong>
+                <pre><code>streamlit run ui/app.py</code></pre>
+            </li>
+        </ol>
+    </div>
+
+    <div class="section">
+        <h2>💬 Example Interaction</h2>
+        <ul>
+            <li>🗣️ <strong>User:</strong> "I need parking for my SUV near City Center for 3 hours tomorrow."</li>
+            <li>🤖 <strong>Assistant:</strong> (Provides available slots)</li>
+            <li>🗣️ <strong>User:</strong> "Book slot ID 2 for me."</li>
+            <li>🤖 <strong>Assistant:</strong> (Confirms booking or asks for more details)</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>📦 Key Dependencies</h2>
+        <ul>
+            <li>FastAPI & Uvicorn</li>
+            <li>SQLAlchemy & Pydantic</li>
+            <li>LangChain, LangChain-OpenAI</li>
+            <li>pymilvus</li>
+            <li>OpenAI SDK</li>
+            <li>Streamlit</li>
+            <li>tiktoken</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>🤔 Troubleshooting</h2>
+        <ul>
+            <li><strong>API Errors:</strong> Check your API key and billing info.</li>
+            <li><strong>Milvus Errors:</strong> Make sure Docker container is up using <code>docker logs milvus_standalone</code>.</li>
+            <li><strong>Module Errors:</strong> Activate your virtual environment and install dependencies.</li>
+            <li><strong>Connection Errors:</strong> Ensure the API URL is correct and backend is running.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>🏗️ System Architecture</h2>
+        <p>Below is a diagram illustrating the architecture of the AI-Powered Smart Parking System:</p>
+        <img src="docs/images/architecture_diagram.png" alt="System Architecture Diagram" style="max-width:100%; border:1px solid #ccc; border-radius: 8px;" />
+    </div>
+
+    <div class="section">
+        <h2>📸 Screenshot</h2>
+        <p>Check the <strong>docs</strong> folder for UI screenshots and visual guides.</p>
+    </div>
+
+    <div class="section">
+        <h2>🤝 Contributing</h2>
+        <ol>
+            <li>Fork the repository</li>
+            <li>Create your branch: <code>git checkout -b feature/YourAmazingFeature</code></li>
+            <li>Commit your changes: <code>git commit -m 'Add YourAmazingFeature'</code></li>
+            <li>Push your branch: <code>git push origin feature/YourAmazingFeature</code></li>
+            <li>Open a Pull Request</li>
+        </ol>
+    </div>
+
+    <div class="section">
+        <h2>📜 License</h2>
+        <p>This project is licensed under the <strong>MIT License</strong>. See the <code>LICENSE</code> file for more information.</p>
+    </div>
+
+</body>
+</html>
+
+
+
+
+
+
 
 
