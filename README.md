@@ -1,106 +1,116 @@
-*(See the full structure in previous versions if needed; truncated here for brevity in this example)*
+# Parking Agent System
 
-## 🚀 Getting Started
+Project documentation goes here.
 
-### Prerequisites
+## Setup Instructions
 
--   Python 3.9+
--   Git
--   OpenAI API Key
+1.  **Prerequisites:**
+    *   Python 3.8+
+    *   Docker (for running Milvus easily)
+    *   An OpenAI API Key
 
-### Installation & Setup
-
-1.  **Clone repository:**
+2.  **Clone the Repository (if applicable) or Create Project Structure:**
     ```bash
-    git clone <your-repository-url>
-    cd parking_agent_system
+    # git clone <repository_url>
+    # cd parking_agent_system
     ```
+    If starting from scratch, create the directory structure as shown above.
 
-2.  **Create & activate virtual environment:**
+3.  **Set up Milvus:**
+    The easiest way is using Docker:
+    ```bash
+    docker run -d --name milvus_standalone \
+      -p 19530:19530 \
+      -p 9091:9091 \
+      milvusdb/milvus:v2.3.10-standalone 
+      # Use a recent stable version, e.g. v2.3.10 or check Milvus docs for latest
+    ```
+    Ensure Milvus is running and accessible on `localhost:19530`.
+
+4.  **Create Virtual Environment and Install Dependencies:**
     ```bash
     python -m venv venv
-    source venv/bin/activate  # macOS/Linux
+    source venv/bin/activate  # Linux/macOS
     # venv\Scripts\activate    # Windows
-    ```
-
-3.  **Install dependencies:**
-    ```bash
     pip install -r requirements.txt
     ```
 
-4.  **Configure Environment Variables:**
-    Create `.env` file in project root (`parking_agent_system/.env`):
+5.  **Set Up Environment Variables:**
+    Create a `.env` file in the root `parking_agent_system/` directory with the following content:
     ```env
-    # OpenAI
-    OPENAI_API_KEY="sk-YourOpenAIapiKeyHere"
-
-    # Milvus
+    OPENAI_API_KEY="your_openai_api_key_here"
     MILVUS_HOST="localhost"
     MILVUS_PORT="19530"
-    MILVUS_DATA_PATH="./data/milvus_data"
-
-    # Optional for FastAPI scenario
-    # API_BASE_URL="http://localhost:8000"
+    MILVUS_COLLECTION_NAME="parking_conversations" 
+    # Ensure this matches the one in milvus_connector.py if you change it
     ```
-    > **⚠️ Never commit your `.env` file!**
+    Replace `"your_openai_api_key_here"` with your actual OpenAI API key.
 
-5.  **Milvus Setup:**
-    Milvus Lite data is stored at `MILVUS_DATA_PATH`. No separate server needed for Milvus Lite. For standalone Milvus, update `MILVUS_HOST` and `MILVUS_PORT`.
+6.  **Initialize Database and Milvus Collection:**
+    *   **SQLite & Initial Data:** The FastAPI application's startup event and the `app/initial_data.py` script handle SQLite table creation and initial data population. Run this script once manually if needed, or rely on the FastAPI startup:
+        ```bash
+        python -m app.initial_data 
+        ```
+        (Ensure your `PYTHONPATH` is set or run from the root where `app` is a module, e.g., `PYTHONPATH=. python app/initial_data.py` if you have issues.)
+        The FastAPI `startup_event` in `app/main.py` will also attempt to do this.
 
-## ⚙️ Running the Application
+    *   **Milvus Collection:** The Milvus collection (`parking_conversations`) is created automatically when `milvus_utils/milvus_connector.py` is first imported or when its `create_milvus_collection_if_not_exists()` function is called (e.g., on FastAPI startup). You can also test/ensure its creation by running:
+        ```bash
+        python -m milvus_utils.milvus_connector
+        ```
 
-Follow the steps for the scenario that fits your needs.
+## Running the System
 
-### Scenario 1: Run Streamlit UI (Recommended for most users)
+You need to run two components: the FastAPI backend and the Streamlit UI.
 
-This runs the Parking AI Assistant with its user interface.
-
-1.  **Activate virtual environment** (if not already active).
+1.  **Run the FastAPI Backend:**
+    Open a terminal, navigate to the project root (`parking_agent_system/`), activate the virtual environment, and run:
     ```bash
-    source venv/bin/activate
+    uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
     ```
-2.  **Navigate to UI directory and run Streamlit:**
+    The backend will be accessible at `http://localhost:8000`. You can see API docs at `http://localhost:8000/docs`.
+
+2.  **Run the Streamlit UI:**
+    Open another terminal, navigate to the project root, activate the virtual environment, and run:
     ```bash
-    cd ui
-    streamlit run app.py
+    streamlit run ui/app.py
     ```
-3.  Open your browser to `http://localhost:8501` (or the URL shown in your terminal).
+    The UI will typically open automatically in your browser at `http://localhost:8501`.
 
-### Scenario 2: Run FastAPI Backend (For API development or advanced use)
+## Using the System
 
-If you need to run the FastAPI backend separately (e.g., the Streamlit UI is configured to call it, or you're developing API endpoints).
+1.  Open the Streamlit UI in your browser.
+2.  Start chatting with the AI Parking Assistant.
+    *   **Example Search Query:** "I need parking for my car near Downtown Garage A for 2 hours."
+    *   **Example Follow-up (after search results):** "Book slot ID 1."
+    *   **Missing Information:** If you say "I need parking", the agent will ask for location, vehicle type, etc.
+    *   **Memory:** If you previously mentioned your vehicle type (e.g., "I have a two-wheeler"), the agent might remember it for subsequent queries in the same session.
 
-1.  **Activate virtual environment.**
-2.  **Start FastAPI server:**
-    In a **new terminal**, navigate to the `app/` directory and run:
-    ```bash
-    cd app
-    uvicorn main:app --reload --port 8000
-    ```
-    The API will be available at `http://localhost:8000`.
-3.  **Start Streamlit UI (if needed):**
-    Follow steps in **Scenario 1** in a separate terminal. Ensure Streamlit is configured to use the FastAPI backend (e.g., via `API_BASE_URL` in `.env`).
+## Dependencies
 
-## 🔑 Environment Variables
+Key dependencies are listed in `requirements.txt`. This includes:
 
-Key variables to set in your `.env` file:
+*   `fastapi`: For the backend API.
+*   `uvicorn`: ASGI server for FastAPI.
+*   `sqlalchemy`: For SQLite ORM.
+*   `pydantic`: For data validation and settings management.
+*   `python-dotenv`: For managing environment variables.
+*   `openai`: OpenAI Python client library.
+*   `langchain`, `langchain-openai`: For AI agent orchestration and LLM integration.
+*   `pymilvus`: Python client for Milvus.
+*   `streamlit`: For the user interface.
+*   `tiktoken`: For token counting with OpenAI models.
 
--   `OPENAI_API_KEY`: **Required.**
--   `MILVUS_HOST`: Default `localhost`.
--   `MILVUS_PORT`: Default `19530`.
--   `MILVUS_DATA_PATH`: Default `./data/milvus_data`.
--   `API_BASE_URL`: (Optional) For Scenario 2, e.g., `http://localhost:8000`.
+(See `requirements.txt` for specific versions used if this project was versioned.)
 
-## 🤔 Troubleshooting
+## Further Development / Considerations
 
--   **OpenAI `auth_subrequest_error`**: Check `OPENAI_API_KEY` and OpenAI account status.
--   **Milvus Issues**: Ensure `MILVUS_DATA_PATH` is writable. For standalone, check server status.
--   **Module Not Found**: Re-run `pip install -r requirements.txt` in activated venv.
-
-## 🤝 Contributing
-
-Pull Requests are welcome. Fork, branch, commit, and open a PR.
-
-## 📜 License
-
-MIT License (Add a `LICENSE` file for details).
+*   **Time-based Slot Availability:** The current booking system is simplistic (marks slot unavailable indefinitely). A real system needs to manage availability based on booking start/end times.
+*   **User Authentication:** Implement proper user accounts instead of just session IDs.
+*   **Date/Time Handling:** Currently assumes "today/now". Add full date/time parsing and handling for future bookings.
+*   **Advanced Milvus Search:** Use partition keys for `session_id` if scaling to many users. More sophisticated querying.
+*   **Error Handling & Resilience:** More robust error handling across all components.
+*   **LLM Prompt Engineering:** Continuously refine prompts for better intent detection, parameter extraction, and conversational flow.
+*   **Agent State Management:** The current agent's tool metadata (like `last_search_results`) is a simplification. For multi-user/session environments, this state needs to be managed per session (e.g., in a Redis cache or passed around).
+*   **Testing:** Add unit and integration tests.
+*   **Deployment:** Containerize with Docker Compose for easier deployment.
