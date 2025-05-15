@@ -157,9 +157,8 @@ The project relies on several key Python libraries (full list in `requirements.t
 
 
     ## Check  Screenshot in docs Folder 
-    docs/Screenshot 2025-05-15 at 9.30.51 AM.png
-    ![Chatbot Diagram](docs/Screenshot 2025-05-15 at 9.30.51 AM.png)
-    
+
+
 ## 🤝 Contributing
 
 Contributions are highly appreciated!
