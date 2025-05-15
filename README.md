@@ -146,6 +146,14 @@ The project relies on several key Python libraries (full list in `requirements.t
     *   Ensure the `API_BASE_URL` (if explicitly used by Streamlit to call FastAPI) in `.env` or your Streamlit code points to `http://localhost:8000`.
     *   Check for firewall issues that might block local connections.
 
+
+
+
+    ## 🏗️ System Architecture
+
+    Below is a diagram illustrating the architecture of the AI-Powered Smart Parking System:
+
+    ![System Architecture Diagram](docs/images/architecture_diagram.png)
 ## 🤝 Contributing
 
 Contributions are highly appreciated!
