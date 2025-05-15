@@ -1,31 +1,26 @@
+*(See the full structure in previous versions if needed; truncated here for brevity in this example)*
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
--   Python 3.9 or higher
+-   Python 3.9+
 -   Git
--   An OpenAI API Key
--   (For macOS users needing `watchdog` for Streamlit hot-reloading):
-    ```bash
-    xcode-select --install
-    ```
+-   OpenAI API Key
 
 ### Installation & Setup
 
-1.  **Clone the repository:**
+1.  **Clone repository:**
     ```bash
     git clone <your-repository-url>
     cd parking_agent_system
     ```
 
-2.  **Create and activate a virtual environment (recommended):**
+2.  **Create & activate virtual environment:**
     ```bash
     python -m venv venv
-    # On macOS/Linux
-    source venv/bin/activate
-    # On Windows
-    # venv\Scripts\activate
+    source venv/bin/activate  # macOS/Linux
+    # venv\Scripts\activate    # Windows
     ```
 
 3.  **Install dependencies:**
@@ -33,127 +28,79 @@
     pip install -r requirements.txt
     ```
 
-4.  **Set up Environment Variables:**
-    Create a `.env` file in the root of the project (`parking_agent_system/.env`).
-
-    > **⚠️ Important:** The `.env` file is ignored by Git (as it should be) and contains sensitive information like your API key. **Never commit it to your repository.**
-
-    Add your configurations to it. Here's an example structure:
+4.  **Configure Environment Variables:**
+    Create `.env` file in project root (`parking_agent_system/.env`):
     ```env
-    # OpenAI Configuration
+    # OpenAI
     OPENAI_API_KEY="sk-YourOpenAIapiKeyHere"
 
-    # Milvus Configuration
-    # For Milvus Lite, these might not be strictly necessary if defaults are used,
-    # but good to have for explicitness or if using a standalone Milvus server.
+    # Milvus
     MILVUS_HOST="localhost"
     MILVUS_PORT="19530"
-    # Path for Milvus Lite data storage. Ensure this directory exists or can be created.
     MILVUS_DATA_PATH="./data/milvus_data"
 
-    # Optional: If using a separate FastAPI backend
+    # Optional for FastAPI scenario
     # API_BASE_URL="http://localhost:8000"
     ```
+    > **⚠️ Never commit your `.env` file!**
 
 5.  **Milvus Setup:**
-    -   By default, the system is configured to use Milvus Lite.
-    -   The Milvus Lite data will be stored in the path specified by `MILVUS_DATA_PATH` in your `.env` file (defaulting to `./data/milvus_data/` if not set and the code defaults to it). Ensure this directory is writable by the application.
-    -   No separate Milvus server installation is needed for Milvus Lite.
-    -   If you intend to use a standalone Milvus server, update `MILVUS_HOST` and `MILVUS_PORT` accordingly in your `.env` file.
+    Milvus Lite data is stored at `MILVUS_DATA_PATH`. No separate server needed for Milvus Lite. For standalone Milvus, update `MILVUS_HOST` and `MILVUS_PORT`.
 
 ## ⚙️ Running the Application
 
-There are two main ways to run this project, depending on whether you intend to use the FastAPI backend separately.
+Follow the steps for the scenario that fits your needs.
 
-### Scenario 1: Running Streamlit UI Standalone (Agent logic within Streamlit app)
+### Scenario 1: Run Streamlit UI (Recommended for most users)
 
-This is the most common scenario if your Streamlit application directly initializes and uses the `ParkingAgent` from the `agent/` directory.
+This runs the Parking AI Assistant with its user interface.
 
-1.  Ensure your virtual environment is activated:
+1.  **Activate virtual environment** (if not already active).
     ```bash
-    source venv/bin/activate # Or your venv activation command
+    source venv/bin/activate
     ```
-2.  Navigate to the UI directory and run the Streamlit app:
+2.  **Navigate to UI directory and run Streamlit:**
     ```bash
     cd ui
     streamlit run app.py
     ```
-3.  Open your web browser and go to the local URL provided by Streamlit (usually `http://localhost:8501`).
+3.  Open your browser to `http://localhost:8501` (or the URL shown in your terminal).
 
-### Scenario 2: Running with a Separate FastAPI Backend
+### Scenario 2: Run FastAPI Backend (For API development or advanced use)
 
-Use this scenario if your `app/main.py` is designed as a separate API backend that the Streamlit UI (or other services) will consume.
+If you need to run the FastAPI backend separately (e.g., the Streamlit UI is configured to call it, or you're developing API endpoints).
 
-1.  Ensure your virtual environment is activated.
-2.  **Start the FastAPI Backend:**
-    -   Open a new terminal window or tab.
-    -   Navigate to the `app/` directory:
-        ```bash
-        cd app
-        ```
-    -   Run the FastAPI application using Uvicorn:
-        ```bash
-        uvicorn main:app --reload --port 8000
-        ```
-        *(The `--reload` flag is for development. The `--port` can be changed if needed.)*
-    -   The FastAPI backend should now be running (typically at `http://localhost:8000`). Check its API documentation (if enabled, usually at `http://localhost:8000/docs`).
-
-3.  **Start the Streamlit UI:**
-    -   Open another new terminal window or tab.
-    -   Ensure your virtual environment is activated.
-    -   Navigate to the `ui/` directory:
-        ```bash
-        cd ui
-        ```
-    -   Run the Streamlit app:
-        ```bash
-        streamlit run app.py
-        ```
-    -   The Streamlit UI will open in your browser (usually `http://localhost:8501`).
-    > **Note:** If your Streamlit UI is designed to communicate with this FastAPI backend, ensure it's configured to point to the correct API base URL (e.g., `http://localhost:8000`). This might be set via an environment variable (e.g., `API_BASE_URL` in the `.env` file).
+1.  **Activate virtual environment.**
+2.  **Start FastAPI server:**
+    In a **new terminal**, navigate to the `app/` directory and run:
+    ```bash
+    cd app
+    uvicorn main:app --reload --port 8000
+    ```
+    The API will be available at `http://localhost:8000`.
+3.  **Start Streamlit UI (if needed):**
+    Follow steps in **Scenario 1** in a separate terminal. Ensure Streamlit is configured to use the FastAPI backend (e.g., via `API_BASE_URL` in `.env`).
 
 ## 🔑 Environment Variables
 
-The application relies on environment variables for configuration, especially API keys and service connection details. These should be defined in a `.env` file in the project root.
+Key variables to set in your `.env` file:
 
--   `OPENAI_API_KEY`: **(Required)** Your API key for accessing OpenAI models.
--   `MILVUS_HOST`: Hostname for the Milvus server (e.g., `"localhost"`).
--   `MILVUS_PORT`: Port for the Milvus server (e.g., `"19530"`).
--   `MILVUS_DATA_PATH`: Filesystem path where Milvus Lite should store its data (e.g., `"./data/milvus_data"`). Ensure this directory is writable.
--   `API_BASE_URL`: (Optional) If using a separate FastAPI backend (Scenario 2), this is the base URL of that backend (e.g., `"http://localhost:8000"`) used by the Streamlit UI.
-
-<!-- List other environment variables if you have them -->
+-   `OPENAI_API_KEY`: **Required.**
+-   `MILVUS_HOST`: Default `localhost`.
+-   `MILVUS_PORT`: Default `19530`.
+-   `MILVUS_DATA_PATH`: Default `./data/milvus_data`.
+-   `API_BASE_URL`: (Optional) For Scenario 2, e.g., `http://localhost:8000`.
 
 ## 🤔 Troubleshooting
 
--   **`auth_subrequest_error` from OpenAI:**
-    -   Ensure the `OPENAI_API_KEY` in your `.env` file is correct.
-    -   Check your OpenAI account for billing issues or insufficient credits.
-    -   Verify the `.env` file is in the project root and is being loaded.
--   **Milvus Connection/Initialization Issues:**
-    -   Ensure the `MILVUS_DATA_PATH` is writable.
-    -   If using a standalone Milvus server, verify it's running and accessible.
-    -   Check application logs for Milvus client errors.
--   **Streamlit `watchdog` module warning (macOS):**
-    Run: `pip install watchdog`. You might also need: `xcode-select --install`.
--   **`markdown2` library not found:**
-    Run: `pip install markdown2` for richer Markdown rendering.
--   **FastAPI backend not reachable from Streamlit (Scenario 2):**
-    Ensure the FastAPI server is running. Check `API_BASE_URL` and firewall settings.
+-   **OpenAI `auth_subrequest_error`**: Check `OPENAI_API_KEY` and OpenAI account status.
+-   **Milvus Issues**: Ensure `MILVUS_DATA_PATH` is writable. For standalone, check server status.
+-   **Module Not Found**: Re-run `pip install -r requirements.txt` in activated venv.
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request or open an Issue.
-
-1.  Fork the Project.
-2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`).
-3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`).
-4.  Push to the Branch (`git push origin feature/AmazingFeature`).
-5.  Open a Pull Request.
+Pull Requests are welcome. Fork, branch, commit, and open a PR.
 
 ## 📜 License
 
-Distributed under the MIT License. See `LICENSE` file for more information (if you add one).
-
-<!-- If you don't have a LICENSE file, you can state: -->
-<!-- This project is currently unlicensed. Feel free to use it as you see fit, or consider adding a license. -->
+MIT License (Add a `LICENSE` file for details).
