@@ -1,4 +1,4 @@
-<!-- # 🚗 AI-Powered Smart Parking System
+ # 🚗 AI-Powered Smart Parking System
 
 Welcome to the AI-Powered Smart Parking System! This project revolutionizes how you find and book parking spots. Our intelligent assistant helps you check slot availability in real-time and provides a seamless booking experience. Say goodbye to parking hassles!
 
@@ -175,7 +175,6 @@ Distributed under the MIT License. See `LICENSE` file for more information. (Cre
 
 
 
-
-
+ -->
 
 
