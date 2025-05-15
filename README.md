@@ -154,6 +154,9 @@ The project relies on several key Python libraries (full list in `requirements.t
     Below is a diagram illustrating the architecture of the AI-Powered Smart Parking System:
 
     ![System Architecture Diagram](docs/images/architecture_diagram.png)
+
+
+    ## Check  Screenshot in docs Folder 
 ## 🤝 Contributing
 
 Contributions are highly appreciated!
