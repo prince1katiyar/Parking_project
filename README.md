@@ -1,116 +1,160 @@
-# Parking Agent System
+# 🚗 AI-Powered Smart Parking System
 
-Project documentation goes here.
+Welcome to the AI-Powered Smart Parking System! This project revolutionizes how you find and book parking spots. Our intelligent assistant helps you check slot availability in real-time and provides a seamless booking experience. Say goodbye to parking hassles!
 
-## Setup Instructions
+## 🌟 Core Features
 
-1.  **Prerequisites:**
-    *   Python 3.8+
-    *   Docker (for running Milvus easily)
-    *   An OpenAI API Key
+-   **Smart Slot Checking:** Instantly find available parking spots near your destination.
+-   **Seamless Booking:** Reserve your preferred parking slot directly through the assistant.
+-   **Conversational AI:** Interact naturally with our AI assistant for all your parking needs.
+-   **Personalized Experience:** The assistant can remember your preferences (like vehicle type) for future interactions within the same session.
+-   **Real-time Updates (Conceptual):** Designed with the potential to integrate with real-time parking data.
 
-2.  **Clone the Repository (if applicable) or Create Project Structure:**
+## 🛠️ Tech Stack
+
+-   **Backend API:** FastAPI
+-   **AI Orchestration:** LangChain, LangChain-OpenAI
+-   **Language Model:** OpenAI (GPT series)
+-   **Vector Database:** Milvus (for semantic search, conversation memory)
+-   **Database (Relational):** SQLite (managed by SQLAlchemy)
+-   **User Interface:** Streamlit
+-   **Server:** Uvicorn (for FastAPI)
+-   **Environment Management:** Python-dotenv
+-   **Containerization (for Milvus):** Docker
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+1.  **Python 3.8+**: Ensure Python is installed on your system.
+2.  **Docker**: Required for easily running a Milvus instance. [Install Docker](https://docs.docker.com/get-docker/)
+3.  **OpenAI API Key**: You'll need an API key from [OpenAI](https://platform.openai.com/).
+
+### Setup Instructions
+
+1.  **Clone the Repository (if applicable):**
     ```bash
-    # git clone <repository_url>
-    # cd parking_agent_system
+    # git clone <your-repository-url>
+    # cd ai-powered-smart-parking-system
     ```
-    If starting from scratch, create the directory structure as shown above.
+    (If starting from scratch, create the project directory structure.)
 
-3.  **Set up Milvus:**
-    The easiest way is using Docker:
+2.  **Set Up Milvus with Docker:**
+    This is the recommended way to run Milvus for development.
     ```bash
     docker run -d --name milvus_standalone \
       -p 19530:19530 \
       -p 9091:9091 \
-      milvusdb/milvus:v2.3.10-standalone 
-      # Use a recent stable version, e.g. v2.3.10 or check Milvus docs for latest
+      milvusdb/milvus:v2.3.10-standalone
     ```
-    Ensure Milvus is running and accessible on `localhost:19530`.
+    *(You can replace `v2.3.10-standalone` with a more recent stable version from [Milvus Docker Hub](https://hub.docker.com/r/milvusdb/milvus/tags). Ensure Milvus is running and accessible on `localhost:19530`.)*
 
-4.  **Create Virtual Environment and Install Dependencies:**
+3.  **Create Virtual Environment & Install Dependencies:**
+    Navigate to your project root directory.
     ```bash
     python -m venv venv
-    source venv/bin/activate  # Linux/macOS
-    # venv\Scripts\activate    # Windows
+    source venv/bin/activate  # For macOS/Linux
+    # venv\Scripts\activate    # For Windows
     pip install -r requirements.txt
     ```
 
-5.  **Set Up Environment Variables:**
-    Create a `.env` file in the root `parking_agent_system/` directory with the following content:
+4.  **Configure Environment Variables:**
+    Create a `.env` file in the project root directory (`ai-powered-smart-parking-system/.env`) with the following content:
     ```env
     OPENAI_API_KEY="your_openai_api_key_here"
     MILVUS_HOST="localhost"
     MILVUS_PORT="19530"
-    MILVUS_COLLECTION_NAME="parking_conversations" 
-    # Ensure this matches the one in milvus_connector.py if you change it
+    MILVUS_COLLECTION_NAME="parking_conversations"
+    # API_BASE_URL="http://localhost:8000" # Used by Streamlit to find FastAPI
     ```
-    Replace `"your_openai_api_key_here"` with your actual OpenAI API key.
+    Replace `"your_openai_api_key_here"` with your actual OpenAI API key. The `MILVUS_COLLECTION_NAME` should match what's used in `milvus_utils/milvus_connector.py`.
 
-6.  **Initialize Database and Milvus Collection:**
-    *   **SQLite & Initial Data:** The FastAPI application's startup event and the `app/initial_data.py` script handle SQLite table creation and initial data population. Run this script once manually if needed, or rely on the FastAPI startup:
+5.  **Initialize Database & Milvus Collection:**
+    *   **SQLite & Initial Data:** The FastAPI app handles SQLite table creation on startup. If needed, you can also run the initialization script manually:
         ```bash
-        python -m app.initial_data 
+        # Ensure you are in the project root
+        python -m app.initial_data
         ```
-        (Ensure your `PYTHONPATH` is set or run from the root where `app` is a module, e.g., `PYTHONPATH=. python app/initial_data.py` if you have issues.)
-        The FastAPI `startup_event` in `app/main.py` will also attempt to do this.
-
-    *   **Milvus Collection:** The Milvus collection (`parking_conversations`) is created automatically when `milvus_utils/milvus_connector.py` is first imported or when its `create_milvus_collection_if_not_exists()` function is called (e.g., on FastAPI startup). You can also test/ensure its creation by running:
+    *   **Milvus Collection:** The specified Milvus collection is typically created automatically on application startup (e.g., when `milvus_connector.py` is used). You can also verify or create it:
         ```bash
+        # Ensure you are in the project root
         python -m milvus_utils.milvus_connector
         ```
 
-## Running the System
+## ⚙️ Running the System
 
-You need to run two components: the FastAPI backend and the Streamlit UI.
+To bring the AI-Powered Smart Parking System to life, you need to run two main components: the FastAPI backend and the Streamlit UI.
 
-1.  **Run the FastAPI Backend:**
-    Open a terminal, navigate to the project root (`parking_agent_system/`), activate the virtual environment, and run:
-    ```bash
-    uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-    ```
-    The backend will be accessible at `http://localhost:8000`. You can see API docs at `http://localhost:8000/docs`.
+1.  **Start the FastAPI Backend:**
+    *   Open a terminal.
+    *   Activate your virtual environment: `source venv/bin/activate`
+    *   Navigate to the project root directory.
+    *   Run Uvicorn:
+        ```bash
+        uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+        ```
+    *   Keep this terminal running. The backend is now live at `http://localhost:8000`. API docs are usually at `http://localhost:8000/docs`.
 
-2.  **Run the Streamlit UI:**
-    Open another terminal, navigate to the project root, activate the virtual environment, and run:
-    ```bash
-    streamlit run ui/app.py
-    ```
-    The UI will typically open automatically in your browser at `http://localhost:8501`.
+2.  **Start the Streamlit User Interface:**
+    *   Open a **new** terminal.
+    *   Activate your virtual environment: `source venv/bin/activate`
+    *   Navigate to the project root directory.
+    *   Run Streamlit:
+        ```bash
+        streamlit run ui/app.py
+        ```
+    *   Keep this terminal running. The UI will typically open in your browser at `http://localhost:8501`.
 
-## Using the System
+## 💬 Using the System
 
-1.  Open the Streamlit UI in your browser.
-2.  Start chatting with the AI Parking Assistant.
-    *   **Example Search Query:** "I need parking for my car near Downtown Garage A for 2 hours."
-    *   **Example Follow-up (after search results):** "Book slot ID 1."
-    *   **Missing Information:** If you say "I need parking", the agent will ask for location, vehicle type, etc.
-    *   **Memory:** If you previously mentioned your vehicle type (e.g., "I have a two-wheeler"), the agent might remember it for subsequent queries in the same session.
+Once both backend and UI are running:
 
-## Dependencies
+1.  Open the Streamlit UI in your web browser (e.g., `http://localhost:8501`).
+2.  Begin your conversation with the AI Parking Assistant!
 
-Key dependencies are listed in `requirements.txt`. This includes:
+    **Example Interactions:**
+    *   🗣️ **User:** "I need parking for my SUV near City Center for 3 hours tomorrow."
+    *   🤖 **Assistant:** (Provides available slots)
+    *   🗣️ **User:** "Book slot ID 2 for me."
+    *   🤖 **Assistant:** (Confirms booking or asks for more details)
 
-*   `fastapi`: For the backend API.
-*   `uvicorn`: ASGI server for FastAPI.
-*   `sqlalchemy`: For SQLite ORM.
-*   `pydantic`: For data validation and settings management.
-*   `python-dotenv`: For managing environment variables.
-*   `openai`: OpenAI Python client library.
-*   `langchain`, `langchain-openai`: For AI agent orchestration and LLM integration.
-*   `pymilvus`: Python client for Milvus.
-*   `streamlit`: For the user interface.
-*   `tiktoken`: For token counting with OpenAI models.
+    **Tips:**
+    *   **Missing Information:** If you simply say "I need parking," the agent will guide you by asking for necessary details like location, vehicle type, duration, etc.
+    *   **Conversational Memory:** The assistant can remember details from your current session (e.g., if you mentioned your vehicle type earlier).
 
-(See `requirements.txt` for specific versions used if this project was versioned.)
+## 📦 Key Dependencies
 
-## Further Development / Considerations
+The project relies on several key Python libraries (full list in `requirements.txt`):
 
-*   **Time-based Slot Availability:** The current booking system is simplistic (marks slot unavailable indefinitely). A real system needs to manage availability based on booking start/end times.
-*   **User Authentication:** Implement proper user accounts instead of just session IDs.
-*   **Date/Time Handling:** Currently assumes "today/now". Add full date/time parsing and handling for future bookings.
-*   **Advanced Milvus Search:** Use partition keys for `session_id` if scaling to many users. More sophisticated querying.
-*   **Error Handling & Resilience:** More robust error handling across all components.
-*   **LLM Prompt Engineering:** Continuously refine prompts for better intent detection, parameter extraction, and conversational flow.
-*   **Agent State Management:** The current agent's tool metadata (like `last_search_results`) is a simplification. For multi-user/session environments, this state needs to be managed per session (e.g., in a Redis cache or passed around).
-*   **Testing:** Add unit and integration tests.
-*   **Deployment:** Containerize with Docker Compose for easier deployment.
+-   `fastapi` & `uvicorn`: For building and serving the backend API.
+-   `sqlalchemy`: ORM for SQLite database interactions.
+-   `pydantic`: Data validation and settings.
+-   `python-dotenv`: Managing environment variables from `.env` files.
+-   `openai`: Official Python client for OpenAI API.
+-   `langchain`, `langchain-openai`: For the AI agent, memory, and LLM integration.
+-   `pymilvus`: Python client for interacting with Milvus.
+-   `streamlit`: For creating the interactive web UI.
+-   `tiktoken`: For token counting, often used with OpenAI models.
+
+## 🤔 Troubleshooting
+
+-   **OpenAI API Errors:** Double-check your `OPENAI_API_KEY` in `.env`. Ensure your OpenAI account has active billing and sufficient credits.
+-   **Milvus Connection Issues:** Verify the Milvus Docker container is running and accessible on `localhost:19530`. Check Docker logs for Milvus (`docker logs milvus_standalone`).
+-   **`ModuleNotFoundError`**: Make sure your virtual environment is activated and you've run `pip install -r requirements.txt`.
+-   **Streamlit UI Can't Connect to Backend:**
+    *   Confirm the FastAPI backend (Step 1 in "Running the System") is running without errors.
+    *   Ensure the `API_BASE_URL` (if explicitly used by Streamlit to call FastAPI) in `.env` or your Streamlit code points to `http://localhost:8000`.
+    *   Check for firewall issues that might block local connections.
+
+## 🤝 Contributing
+
+Contributions are highly appreciated!
+1.  Fork the Project.
+2.  Create your Feature Branch (`git checkout -b feature/YourAmazingFeature`).
+3.  Commit your Changes (`git commit -m 'Add some YourAmazingFeature'`).
+4.  Push to the Branch (`git push origin feature/YourAmazingFeature`).
+5.  Open a Pull Request.
+
+## 📜 License
+
+Distributed under the MIT License. See `LICENSE` file for more information. (Create a `LICENSE` file if you haven't already).
