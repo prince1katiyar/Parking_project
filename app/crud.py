@@ -85,14 +85,14 @@ def create_booking(db: Session, booking_data: schemas.BookingCreate):
 def get_booking(db: Session, booking_id: int):
     return db.query(models.Booking).filter(models.Booking.id == booking_id).first()
 
-def get_user_bookings(db: Session, user_id: str) -> List[models.Booking]: # Added type hint for return
+def get_user_bookings(db: Session, user_id: str) -> List[models.Booking]: 
     return db.query(models.Booking).filter(models.Booking.user_id == user_id).order_by(models.Booking.start_time.desc()).all()
 
 
 def get_distinct_locations_for_vehicle_type(db: Session, vehicle_type: str) -> List[str]:
     print(f"CRUD (get_distinct_locations_for_vehicle_type): Searching for vehicle_type='{vehicle_type}'")
     query_result = db.query(distinct(models.ParkingSlot.location)).filter(
-        models.ParkingSlot.is_available == True, # <--- Crucial filter
+        models.ParkingSlot.is_available == True, 
         models.ParkingSlot.vehicle_type.ilike(vehicle_type)
     ).all()
     locations = [location_tuple[0] for location_tuple in query_result]
