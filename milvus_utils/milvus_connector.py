@@ -1,4 +1,4 @@
-# parking_agent_system/milvus_utils/milvus_connector.py
+
 import os
 from pymilvus import connections, utility, Collection, CollectionSchema, FieldSchema, DataType
 from langchain_openai import OpenAIEmbeddings
@@ -6,17 +6,16 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Milvus Lite Configuration
-MILVUS_DATA_PATH = os.getenv("MILVUS_DATA_PATH", "./data/milvus_data") # Local 
+
+MILVUS_DATA_PATH = os.getenv("MILVUS_DATA_PATH", "./data/milvus_data") 
 COLLECTION_NAME = "parking_conversations"
-DIMENSION = 1536  # Dimension of OpenAI's text-embedding-ada-002
+DIMENSION = 1536 
 INDEX_FIELD_NAME = "embedding"
 ID_FIELD_NAME = "id"
 SESSION_ID_FIELD_NAME = "session_id"
 TEXT_FIELD_NAME = "text"
-ROLE_FIELD_NAME = "role" # 'user' or 'ai'
-METRIC_TYPE = "L2" # Euclidean distance
-
+ROLE_FIELD_NAME = "role" 
+METRIC_TYPE = "L2" 
 
 class MilvusService:
     def __init__(self):
@@ -27,8 +26,8 @@ class MilvusService:
     def _connect(self):
         try:
             print(f"Attempting to connect to Milvus Lite, data will be stored in: {MILVUS_DATA_PATH}")
-            os.makedirs(MILVUS_DATA_PATH, exist_ok=True) # Ensure directory exists
-            connections.connect(alias="default", uri=f"{MILVUS_DATA_PATH}/milvus_parking.db") # Milvus Lite uses a local file
+            os.makedirs(MILVUS_DATA_PATH, exist_ok=True) 
+            connections.connect(alias="default", uri=f"{MILVUS_DATA_PATH}/milvus_parking.db") 
             print("Successfully connected to Milvus Lite.")
         except Exception as e:
             print(f"Failed to connect to Milvus: {e}")
@@ -51,12 +50,12 @@ class MilvusService:
         else:
             print(f"Collection '{COLLECTION_NAME}' already exists.")
             self.collection = Collection(COLLECTION_NAME, using="default")
-            # Ensure index exists on load
+
             if not self.collection.has_index():
                 print(f"Index not found for collection '{COLLECTION_NAME}'. Creating index...")
                 self._create_index()
             else:
-                # Ensure collection is loaded for searching
+
                 self.collection.load()
 
 
@@ -67,12 +66,12 @@ class MilvusService:
             "params": {"nlist": 128}, 
         }
         self.collection.create_index(INDEX_FIELD_NAME, index_params)
-        self.collection.load() # Load collection into memory for searching
+        self.collection.load() 
         print(f"Index created for field '{INDEX_FIELD_NAME}' and collection loaded.")
 
 
     def add_conversation_history(self, session_id: str, text: str, role: str):
-        if not text.strip(): # Don't store empty messages
+        if not text.strip(): 
             return None
         embedding = self.embeddings_model.embed_query(text)
         data = [
@@ -110,7 +109,7 @@ class MilvusService:
                 param=search_params,
                 limit=k,
                 expr=expr, 
-                output_fields=[TEXT_FIELD_NAME, ROLE_FIELD_NAME, SESSION_ID_FIELD_NAME] # Ensure SESSION_ID_FIELD_NAME is retrieved for verification
+                output_fields=[TEXT_FIELD_NAME, ROLE_FIELD_NAME, SESSION_ID_FIELD_NAME] 
             )
 
             history = []
@@ -128,7 +127,6 @@ class MilvusService:
             print(f"Error searching Milvus: {e}")
             return []
 
-# For testing purposes
 if __name__ == "__main__":
     milvus_service = MilvusService()
     session_id = "test_session_123"
@@ -142,4 +140,4 @@ if __name__ == "__main__":
         print(f"- {item['role']}: {item['content']}")
 
     history_other_session = milvus_service.get_relevant_history("other_session", "My car needs parking.")
-    print(f"\nHistory for other_session: {history_other_session}") # Should be empty
+    print(f"\nHistory for other_session: {history_other_session}")

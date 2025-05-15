@@ -1,5 +1,4 @@
 
-
 import httpx
 from langchain.tools import BaseTool
 from pydantic import BaseModel, Field
@@ -8,7 +7,6 @@ import json
 import datetime 
 
 BASE_API_URL = "http://localhost:8000"
-
 
 class ParkingSearchToolInput(BaseModel):
     vehicle_type: str = Field(description="Type of vehicle, e.g., 'car', 'two-wheeler', 'suv'.")
@@ -25,8 +23,6 @@ class ParkingBookingToolInput(BaseModel):
 
 class GetAvailableLocationsForVehicleToolInput(BaseModel):
     vehicle_type: str = Field(description="Type of vehicle, e.g., 'car', 'two-wheeler'.")
-
-
 
 class SearchParkingSpotsTool(BaseTool):
     name: str = "SearchParkingSpots"
@@ -76,7 +72,6 @@ class SearchParkingSpotsTool(BaseTool):
         except Exception as e:
             print(f"DEBUG TOOL (SearchParkingSpotsTool): UNEXPECTED TOOL ERROR: {str(e)}")
             return f"An unexpected error occurred while searching for parking spots: {str(e)}"
-
 
 class BookParkingSpotTool(BaseTool):
     name: str = "BookParkingSpot"

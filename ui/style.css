@@ -1,6 +1,5 @@
 
 
-/* General body styling */
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #eef2f5;  
@@ -9,7 +8,6 @@ body {
     overflow-x: hidden; 
 }
 
-/* Custom Header */
 .custom-header {
     background-color: #007bff; 
     color: white;
@@ -40,7 +38,7 @@ body {
     box-sizing: border-box; 
 }
 
-/* Individual message bubble */
+
 .message-bubble {
     max-width: 75%;
     padding: 10px 15px;
@@ -53,7 +51,6 @@ body {
     box-shadow: 0 1px 2px rgba(0,0,0,0.08);
 }
 
-/* User message styling */
 .user-message {
     background-color: #007bff;
     color: white;
@@ -66,7 +63,7 @@ body {
     color: #d1e7ff;
 }
 
-/* Assistant message styling */
+
 .assistant-message {
     background-color: #f0f0f0;
     color: #212529;
@@ -105,7 +102,6 @@ body {
     font-weight: 600;
 }
 
-/* Input area styling */
 
 div[data-testid="stVerticalBlock"] > div[data-testid="stForm"] {
     background-color: #343a40; 
@@ -113,7 +109,7 @@ div[data-testid="stVerticalBlock"] > div[data-testid="stForm"] {
 
 }
 
-/* Targeting the text input field itself for better contrast and style */
+
 div[data-testid="stForm"] textarea {
     background-color: #495057 !important; 
     color: #f8f9fa !important; 
@@ -125,7 +121,7 @@ div[data-testid="stForm"] textarea::placeholder {
     color: #adb5bd !important; 
 }
 
-/* Send button styling */
+
 div[data-testid="stForm"] button[kind="primary"] {
     background-color: #007bff !important;
     color: white !important;
@@ -139,7 +135,6 @@ div[data-testid="stForm"] button[kind="primary"]:hover {
 }
 
 
-/* Scrollbar styling (optional, for webkit browsers like Chrome/Safari) */
 .chat-container::-webkit-scrollbar {
     width: 8px;
 }

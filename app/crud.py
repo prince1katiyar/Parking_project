@@ -1,14 +1,11 @@
 
-
-
-
 from sqlalchemy.orm import Session
 from sqlalchemy import func, distinct
 from typing import List 
 from . import models, schemas
 import datetime 
 
-# --- Parking Slot CRUD ---
+
 def get_parking_slot(db: Session, slot_id: int):
     return db.query(models.ParkingSlot).filter(models.ParkingSlot.id == slot_id).first()
 
@@ -19,7 +16,6 @@ def create_parking_slot(db: Session, slot: schemas.ParkingSlotCreate):
  
     db_slot = models.ParkingSlot(**slot.model_dump())
 
-    
     db.add(db_slot)
     db.commit()
     db.refresh(db_slot)
@@ -50,7 +46,7 @@ def find_available_slots(db: Session, search_params: schemas.ParkingSearchReques
     print(f"CRUD: Found {len(results)} generally available slots matching criteria (not yet time-filtered).")
     return results
 
-# --- Booking CRUD ---
+
 def create_booking(db: Session, booking_data: schemas.BookingCreate):
     slot = get_parking_slot(db, booking_data.slot_id)
     if not slot:

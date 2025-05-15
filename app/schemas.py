@@ -4,7 +4,6 @@ from pydantic import BaseModel, Field
 from typing import List, Optional
 import datetime
 
-
 class ParkingSlotBase(BaseModel):
     location: str
     slot_type: str
@@ -52,14 +51,12 @@ class BookingResponse(BaseModel):
     class Config:
         orm_mode = True
 
-
 class ParkingSearchRequest(BaseModel):
     vehicle_type: str
     location: str
     slot_type: Optional[str] = None
     date: Optional[str] = Field(None, description="Desired date for parking (e.g., YYYY-MM-DD, 'today', 'tomorrow'). LLM will interpret.")
     duration_hours: int
-
 
 class AvailableLocationsResponse(BaseModel):
     locations: List[str]

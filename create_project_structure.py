@@ -27,8 +27,7 @@ def create_structure(base_path, structure):
                 elif file == "requirements.txt":
                     f.write("fastapi\nuvicorn\nsqlalchemy\npydantic\nlangchain\nopenai\nstreamlit\npymilvus\n")
                 else:
-                    pass  # leave parking.db empty or generate it via app
-
+                    pass 
 if __name__ == "__main__":
     create_structure(".", structure["parking_agent_system"])
     print("✅ Project structure created successfully.")

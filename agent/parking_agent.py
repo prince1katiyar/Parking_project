@@ -54,8 +54,6 @@ class ParkingAgent:
  
         return chat_history_messages[-10:] 
 
-
-
     def invoke_agent(self, user_input: str):
         chat_history_for_prompt = self._load_chat_history_from_milvus(user_input)
         
@@ -77,8 +75,6 @@ class ParkingAgent:
             print(f"ERROR AGENT: invoke_agent failed for session {self.session_id}: {e}")
 
             agent_response_text = "I'm sorry, I ran into an unexpected problem. Could you please try rephrasing or try again in a moment?"
-
-
 
         self.milvus_service.add_conversation_history(self.session_id, user_input, "user")
         self.milvus_service.add_conversation_history(self.session_id, agent_response_text, "ai")

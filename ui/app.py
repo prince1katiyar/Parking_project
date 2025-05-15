@@ -16,7 +16,6 @@ from agent.parking_agent import ParkingAgent
 
 st.set_page_config(page_title="Parking AI Assistant", layout="centered", initial_sidebar_state="collapsed")
 
-
 def load_css_and_fonts(css_file_path):
     st.markdown("<link href='https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap' rel='stylesheet'>", unsafe_allow_html=True)
     try:
@@ -32,8 +31,6 @@ load_css_and_fonts(css_file_path)
 USER_AVATAR = "👤"
 BOT_AVATAR = "🚗"
 
-
-
 st.markdown(
     textwrap.dedent("""
         <div class="custom-header">
@@ -43,9 +40,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
-
-
 if "session_id" not in st.session_state:
     st.session_state.session_id = str(uuid.uuid4())
 if "messages" not in st.session_state:
@@ -54,7 +48,6 @@ if "messages" not in st.session_state:
     ]
 if "parking_agent_initialized" not in st.session_state:
     st.session_state.parking_agent_initialized = False
-
 
 if not st.session_state.parking_agent_initialized:
     try:
@@ -72,8 +65,6 @@ if not st.session_state.parking_agent_initialized:
     except Exception as e:
         st.error(f"Fatal Error: Failed to initialize Parking Agent. Check API keys and backend services. Error: {e}")
         st.stop()
-
-
 
 
 chat_placeholder = st.empty()
@@ -121,8 +112,6 @@ def display_messages():
     full_html_chat = "".join(message_html_list)
     
     chat_placeholder.markdown(full_html_chat, unsafe_allow_html=True)
-
-
 
 
 display_messages()
