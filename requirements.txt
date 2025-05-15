@@ -12,16 +12,3 @@ tiktoken
 
 # pip install pymilvus
 # parking_agent_system/requirements.txt
-
-fastapi
-uvicorn[standard]
-sqlalchemy
-pydantic
-langchain
-langchain-openai
-openai
-streamlit
-pymilvus
-milvus 
-python-dotenv
-httpx 
