@@ -1,4 +1,4 @@
-# 🚗 AI-Powered Smart Parking System
+<!-- # 🚗 AI-Powered Smart Parking System
 
 Welcome to the AI-Powered Smart Parking System! This project revolutionizes how you find and book parking spots. Our intelligent assistant helps you check slot availability in real-time and provides a seamless booking experience. Say goodbye to parking hassles!
 
@@ -171,4 +171,163 @@ Contributions are highly appreciated!
 ## 📜 License
 
 Distributed under the MIT License. See `LICENSE` file for more information. (Create a `LICENSE` file if you haven't already).
+ -->
 
+
+
+
+
+
+
+/* style.css */
+body {
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+.container {
+    width: 80%;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+header {
+    background-color: #007bff;
+    color: white;
+    padding: 2.5em 0;
+    text-align: center;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 2.8em;
+    font-weight: 700;
+}
+
+header .tagline {
+    font-size: 1.1em;
+    margin-top: 0.5em;
+    opacity: 0.9;
+}
+
+main section {
+    background-color: #fff;
+    margin-bottom: 30px;
+    padding: 25px 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+h2 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.8em;
+    color: #0056b3; /* Darker blue for headings */
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eee;
+}
+
+h3 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.4em;
+    color: #0069d9;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+ul, ol {
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 0.7em;
+}
+
+pre {
+    background-color: #2d2d2d; /* Dark background for code */
+    color: #f8f8f2;     /* Light text for code */
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;   /* Allow horizontal scrolling for long code lines */
+    font-family: 'Consolas', 'Monaco', 'Menlo', monospace;
+    font-size: 0.9em;
+    line-height: 1.5;
+    white-space: pre-wrap; /* Wrap long lines but preserve formatting */
+    word-wrap: break-word;
+}
+
+code { /* Inline code */
+    background-color: #e9ecef;
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', 'Menlo', monospace;
+    font-size: 0.9em;
+}
+
+pre code { /* Code within pre blocks, reset some styles */
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+}
+
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.tech-stack-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.tech-item {
+    background-color: #f0f8ff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-align: center;
+    border: 1px solid #cce5ff;
+    font-size: 0.95em;
+}
+
+.screenshot-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.screenshot-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    border: 1px solid #ddd;
+}
+
+.screenshot-container .caption {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 10px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+    background-color: #343a40;
+    color: #f8f9fa;
+    font-size: 0.9em;
+}
